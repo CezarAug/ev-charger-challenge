@@ -24,7 +24,7 @@ Responsible for receiving and confirming all booking operations. Uses both cache
 
 ### Authorization Service
 
-Auth authority and authorization provider for all services. Validates received credentials and if they are valid, returns the profile/grants that the user has (Different user levels, admin levels).
+Auth and authorization provider for all services. Validates received credentials and if they are valid, returns the profile/grants that the user has (Different user levels, admin levels).
 
 ### Notification Service
 
@@ -70,20 +70,24 @@ An async topic for all booking events (new bookings, cancellations) to be consum
 
 ## Station Service
 
+![Station Service](./diagrams/station-service.png)
+
 Planned to attend two requests, both operations that only read data. First from the cache and then from the database if required.
 
 - GET - /stations - List all the stations nearby
   - Query Params: Latitude, Longitude and Radius
   - Can be combined with station details to also have the availability of them ready to render on the front-end side.
 
-The initial query can take advantage of a location index on the column “location” of the “stations” table. (Another idea was to use Redis and their location-based features, however, to keep on track with the use case requirements I haven’t dived deep into further investigations).
+This initial request can take advantage of a location index on the column “location” of the “stations” table. (Another idea was to use Redis and their location-based features, however, to keep on track with the use case requirements I haven’t dived deep into further investigations).
 
 Other information about the charging station and its current bookings will be retrieved from the Cache if available or by querying it from the database.
 
-- GET - /station/{id} – List the details of the station.
+- GET - /station/{id} – List the station details and availability.
   - Relies on Cache to get the charging station details, if not present the data will be queried from the database.
 
 ## Booking Service
+
+![Booking Service](./diagrams/booking-service.png)
 
 Only one endpoint for booking a charging station.
 
@@ -116,11 +120,17 @@ Cancel a booking:
 
 ## Notification Service
 
+![Notification Service](./diagrams/notification-service.png)
+
 No extra details here, it will consume events and redirect the proper notification. In this case study the model was simplified so there is only a single table for logging all communications sent to the user through this service.
 
 ## Admin Service
 
-This service works as an entry point for administrators to perform extra operations, like changing the status of a charging station (e.g.: It is broken, so all bookings have to be cancelled). But also, as a cache admin syncing the events created by the Booking service into the Station service cache.
+![Admin Service](./diagrams/admin-service.png)
+
+This service works as an entry point for administrators to perform extra operations and avoid using the same customer structure for operational tasks.
+Tasks like changing the status of a charging station (e.g.: It is broken, so all bookings have to be cancelled). Or cancelling an booking through support. 
+The admin service also works as a cache admin syncing the events created by the Booking service into the Station service cache.
 
 ## Common Features for all Services
 
@@ -134,7 +144,7 @@ This service works as an entry point for administrators to perform extra operati
 
 For this case study, the data model was kept to a minimum, just with the major tables and the minimal required to represent the relations between Charging stations, Bookings and Users. While drawing this I kept in mind a PostgresSQL database, with location functions enabled through postGIS.
 
-&lt;<Model Image&gt;>
+![DB Model](./db-model/basic-db-model.png)
 
 Stations table: Composed by and uuid, a display name and the location.
 
@@ -148,5 +158,7 @@ Bookings table: Main table, relates stations and users. Apart from all ids invol
 Users table: In this case study just the id and name, so no extra work on this table.
 
 ### Notification service
+
+![Notification Model](./db-model/notification-model.png)
 
 The data model for this service not necessarily have to be another SQL database, depending on how these log events are going to be used that can change. It is composed by a single table, with basic information.
