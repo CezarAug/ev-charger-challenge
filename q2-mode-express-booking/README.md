@@ -56,3 +56,4 @@ This is not an official documentation, but the space to register ideas, assumpti
  - Looking for suggestions from the docs, redlock is the solution for nodeJs https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/
  - Error messages are not real world
  - For simplicity (and speed) the lock was based in the whole day
+ - Unit testing was also skipped due to the time constraints
