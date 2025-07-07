@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bookingService = require('../services/bookingService');
 
-/* GET home page. */
+/* GET home page. (Default page from the generator, using it here as a liveness probe) */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -12,11 +12,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/reserve', async function(req, res) {
 
-  // Validate
-
-  // Cache service
-
-  // Booking service
   try {
     
     await bookingService.bookChargingStation(req.body.userId, req.body.chargerId, req.body.date)

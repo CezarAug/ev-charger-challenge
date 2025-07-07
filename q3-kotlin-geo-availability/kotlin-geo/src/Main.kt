@@ -1,7 +1,9 @@
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.lang.Math.*
 
 
 fun main() = runBlocking {
@@ -19,9 +21,7 @@ fun main() = runBlocking {
 suspend fun filterChargersByGeoAndDate(chargers: List<Charger>, date: String, userLat: Double, userLng: Double, radiusKm:
   Double): List<Charger> = coroutineScope {
 
-  val eligibleChargers = filterEligibleChargers(date, chargers)
-
-  val deferred = eligibleChargers.map {
+  val deferred = filterChargersByDate(date, chargers).map {
     charger -> async {
       if (haversine(userLat, userLng, charger.lat, charger.lng) <= radiusKm) charger else null
     }
@@ -30,7 +30,7 @@ suspend fun filterChargersByGeoAndDate(chargers: List<Charger>, date: String, us
   deferred.awaitAll().filterNotNull();
 }
 
-private fun filterEligibleChargers(date: String, chargers: List<Charger>): List<Charger> {
+private fun filterChargersByDate(date: String, chargers: List<Charger>): List<Charger> {
   val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
   val targetDate = LocalDate.parse(date, formatter);
 

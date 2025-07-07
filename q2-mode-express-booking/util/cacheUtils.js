@@ -15,6 +15,7 @@ async function lockItem(key) {
         console.log(`Locking: ${key}`);
         return await redlock.acquire([`lock:${key}`], 120000);
     } catch(err) {
+        console.log(err);
         throw new Error("Reservation slot not available (redis lock - 2 minutes)"); 
     }
     
