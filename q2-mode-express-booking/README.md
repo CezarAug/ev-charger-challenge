@@ -1,10 +1,11 @@
 # EV Station reserve app (Node + ExpressJs)
 
-Application created with ![Express generator](https://expressjs.com/en/starter/generator.html)
+Application created with [Express generator](https://expressjs.com/en/starter/generator.html)
 
 ## Requirements
 
  - Docker (Redis and PostgresSQL)
+ - (Optional) [Bruno API Client](https://www.usebruno.com/) For testing clients through the collection
 
 ## How to Run
 
@@ -25,7 +26,7 @@ This will start
 
 The default port is 8080, with only one endpoint implemented at POST - /reserve
 
-A Bruno collection was exported and saved at ![Bruno Collection]('./_bruno_collection') showcasing an request example.
+A Bruno collection was exported and saved at [Bruno Collection](./_bruno_collection/) showcasing an request example.
 
 Request body example (JSON):
 ```json
