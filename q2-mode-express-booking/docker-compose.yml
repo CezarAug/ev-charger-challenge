@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres -h db"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "email@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "54321:80"
+    depends_on:
+      - db
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+     - db
+     - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PORT=8080
+      - DB_HOST=db
+
+
+volumes:
+  postgres_data:
+  redis-data:

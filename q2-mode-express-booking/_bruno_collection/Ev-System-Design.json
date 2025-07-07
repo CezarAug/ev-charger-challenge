@@ -1,0 +1,98 @@
+{
+  "name": "Ev-System-Design",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Check",
+      "filename": "Check.bru",
+      "seq": 1,
+      "request": {
+        "url": "http://localhost:3000",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Reserve",
+      "filename": "Reserve.bru",
+      "seq": 3,
+      "request": {
+        "url": "http://localhost:3000/reserve",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"date\": \"1921-01-01\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Reserve (Compose)",
+      "filename": "Reserve (Compose).bru",
+      "seq": 4,
+      "request": {
+        "url": "http://localhost:8080/reserve",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"date\": \"1925-01-01\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Ev-System-Design",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0,
+    "filesCount": 0
+  }
+}
