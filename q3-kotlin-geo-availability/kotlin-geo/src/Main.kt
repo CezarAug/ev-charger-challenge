@@ -1,10 +1,6 @@
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 fun main() = runBlocking {
   // Testing coordinates: Tokyo station
@@ -22,8 +18,13 @@ suspend fun filterChargersByGeoAndDate(chargers: List<Charger>, date: String, us
   Double): List<Charger> = coroutineScope {
 
   val deferred = filterChargersByDate(date, chargers).map {
-    charger -> async {
-      if (haversine(userLat, userLng, charger.lat, charger.lng) <= radiusKm) charger else null
+    charger -> async(Dispatchers.Default) {
+    //println("Checking: ${charger.id}")
+    if (haversine(userLat, userLng, charger.lat, charger.lng) <= radiusKm) {
+        charger
+      } else {
+        null
+      }
     }
   }
 
