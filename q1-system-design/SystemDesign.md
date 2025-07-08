@@ -146,7 +146,7 @@ For this case study, the data model was kept to a minimum, just with the major t
 
 ![DB Model](./db-model/basic-db-model.png)
 
-Stations table: Composed by and uuid, a display name and the location.
+Stations table: Composed by and uuid, a display name and the location (Created from latitude and longitude, using postGIS).
 
 The location column is composed of latitude and longitude, converted into a postGIS position. An index can be created on top of that for faster query results.
 
