@@ -1,17 +1,21 @@
 const db = require('../config/db')
 
-
-async function findBooking(stationId, reservationDate) {
-    return await db.oneOrNone('SELECT * FROM BOOKINGS WHERE BOOKING_DATE=$(reservationDate) AND STATION_ID=$(stationId)',{
-        reservationDate,
-        stationId
-    });
+async function findBooking(stationId, reservationStart, reservationEnd) {
+    return await db.one(
+        `SELECT EXISTS (
+            SELECT 1
+            FROM BOOKINGS
+            WHERE STATION_ID = $(stationId) 
+            AND DURATION && tsrange($(reservationStart), $(reservationEnd), '[)')
+        );`,
+        { stationId, reservationStart, reservationEnd });
 }
 
-async function saveBooking(userId, stationId, reservationDate) {
+async function saveBooking(userId, stationId, reservationStart, reservationEnd) {
     await db.none(
-        'INSERT INTO BOOKINGS (USER_ID, STATION_ID, BOOKING_DATE) VALUES($(userId), $(stationId), $(reservationDate))',
-        { userId, stationId, reservationDate }
+        `INSERT INTO BOOKINGS (USER_ID, STATION_ID, DURATION) 
+        VALUES($(userId), $(stationId), tsrange($(reservationStart), $(reservationEnd), '[)'))`,
+        { userId, stationId, reservationStart, reservationEnd }
     );
 }
 
