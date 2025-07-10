@@ -20,15 +20,16 @@ suspend fun filterChargersByGeoAndDate(chargers: List<Charger>, date: String, us
   val deferred = filterChargersByDate(date, chargers).map {
     charger -> async(Dispatchers.Default) {
     //println("Checking: ${charger.id}")
-    if (haversine(userLat, userLng, charger.lat, charger.lng) <= radiusKm) {
-        charger
+    val distance = haversine(userLat, userLng, charger.lat, charger.lng);
+    if (distance <= radiusKm) {
+        Pair(charger, distance)
       } else {
         null
       }
     }
   }
 
-  deferred.awaitAll().filterNotNull();
+  deferred.awaitAll().filterNotNull().sortedBy{ it.second }.map{ it.first }
 }
 
 private fun filterChargersByDate(date: String, chargers: List<Charger>): List<Charger> {
