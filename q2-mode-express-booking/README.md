@@ -45,6 +45,17 @@ The operation executes the following steps:
  - If nothing was found, the reservation is saved in the DB and the cache updated.
  - Lock is released.
 
+### Gatling
+
+A very simple gatling test simulating 100 users trying to reserve at the same time was added.
+
+On _gatling/javascript just run
+
+```
+npm install
+npx gatling run --simulation reservation
+```
+
 ### Assumptions, things to change and others.
 
 This is not an official documentation, but the space to register ideas, assumptions, things I'd like to do if I had more time (or would be a huge deviation from the exercise purpose)
