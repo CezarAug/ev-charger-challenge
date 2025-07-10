@@ -30,17 +30,17 @@
     },
     {
       "type": "http",
-      "name": "Reserve",
-      "filename": "Reserve.bru",
-      "seq": 3,
+      "name": "Reserve (Compose)",
+      "filename": "Reserve (Compose).bru",
+      "seq": 4,
       "request": {
-        "url": "http://localhost:3000/reserve",
+        "url": "http://localhost:8080/reserve",
         "method": "POST",
         "headers": [],
         "params": [],
         "body": {
           "mode": "json",
-          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"date\": \"1921-01-01\"\n}",
+          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"reservation_start\": \"2077-01-01 12:00:00\",\n  \"reservation_end\": \"2077-01-01 13:00:00\"\n}",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -57,17 +57,17 @@
     },
     {
       "type": "http",
-      "name": "Reserve (Compose)",
-      "filename": "Reserve (Compose).bru",
-      "seq": 4,
+      "name": "Reserve",
+      "filename": "Reserve.bru",
+      "seq": 3,
       "request": {
-        "url": "http://localhost:8080/reserve",
+        "url": "http://localhost:3000/reserve",
         "method": "POST",
         "headers": [],
         "params": [],
         "body": {
           "mode": "json",
-          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"date\": \"1925-01-01\"\n}",
+          "json": "{\n  \"userId\": 1,\n  \"chargerId\": 1,\n  \"reservation_start\": \"2077-01-01 12:00:00\",\n  \"reservation_end\": \"2077-01-01 13:00:00\"\n}",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -92,7 +92,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0,
-    "filesCount": 0
+    "size": 0.00060272216796875,
+    "filesCount": 3
   }
 }
