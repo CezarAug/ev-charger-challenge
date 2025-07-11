@@ -33,7 +33,8 @@ Request body example (JSON):
 {
   "userId": 1,
   "chargerId": 1,
-  "date": "2025-01-01"
+  "reservation_start": "2077-01-01 12:00:00",
+  "reservation_end": "2077-01-01 13:00:00"
 }
 ```
 
@@ -43,6 +44,17 @@ The operation executes the following steps:
  - Searches in the DB if the reservation exists, if so aborts the operation and update the cache with the missing reservation.
  - If nothing was found, the reservation is saved in the DB and the cache updated.
  - Lock is released.
+
+### Gatling
+
+A very simple gatling test simulating 100 users trying to reserve at the same time was added.
+
+On _gatling/javascript just run
+
+```
+npm install
+npx gatling run --simulation reservation
+```
 
 ### Assumptions, things to change and others.
 
@@ -55,5 +67,5 @@ This is not an official documentation, but the space to register ideas, assumpti
  - Redis cache was implemented following the Redis docs: https://redis.io/learn/develop/node/nodecrashcourse/caching
  - Looking for suggestions from the docs, redlock is the solution for nodeJs https://redis.io/docs/latest/develop/clients/patterns/distributed-locks/
  - Error messages are not real world
- - For simplicity (and speed) the lock was based in the whole day
+ - ~~For simplicity (and speed) the lock was based in the whole day~~
  - Unit testing was also skipped due to the time constraints

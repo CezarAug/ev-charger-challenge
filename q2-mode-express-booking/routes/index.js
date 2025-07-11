@@ -14,7 +14,7 @@ router.post('/reserve', async function(req, res) {
 
   try {
     
-    await bookingService.bookChargingStation(req.body.userId, req.body.chargerId, req.body.date)
+    await bookingService.bookChargingStation(req.body.userId, req.body.chargerId, req.body.reservation_start, req.body.reservation_end)
     
     // Return new reservation
     res.status(200).json("OK")
